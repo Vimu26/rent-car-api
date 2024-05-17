@@ -5,11 +5,18 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model, Types } from 'mongoose';
+import { getUsersQueryDTO } from 'src/auth/dtos/getUsers.query.dto';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { SignUpDto } from 'src/auth/dtos/signUp.dto';
 import { User } from 'src/auth/schemas/user.schema';
+import { IUser } from 'src/auth/types/users.types';
 import { HashingService } from 'src/common/services/hashing/hashing.service';
+
+export interface user {
+  userID: string | Types.ObjectId;
+  token: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -19,6 +26,15 @@ export class AuthService {
     private jwtService: JwtService,
     private passwordHashingService: HashingService,
   ) {}
+
+  async getUsers(queryParams: getUsersQueryDTO) {
+    const filters: FilterQuery<IUser> = {};
+
+    if (queryParams.id) {
+      filters._id = queryParams.id; // Match with _id field
+    }
+    return await this.usersModel.find(filters);
+  }
 
   async signUp(data: SignUpDto): Promise<{ user: SignUpDto }> {
     const { name, email, contact, password } = data;
@@ -46,7 +62,7 @@ export class AuthService {
     return { user };
   }
 
-  async signIn(data: LoginDto): Promise<{ token: string }> {
+  async signIn(data: LoginDto) {
     const { email, password } = data;
 
     const user = await this.usersModel.findOne({ email });
@@ -63,7 +79,6 @@ export class AuthService {
     }
 
     const token = this.jwtService.sign({ sub: user.id });
-
-    return { token };
+    return { userID: user._id, token };
   }
 }
