@@ -1,6 +1,11 @@
 import { Schema } from 'mongoose';
 import { ICar } from '../types/car.types';
-import { CAR_BRANDS, TRANSMISSION_TYPES } from 'src/enums/car.enum';
+import {
+  CAR_BRANDS,
+  FUEL_TYPE,
+  TRANSMISSION_TYPES,
+  VEHICLE_TYPE,
+} from 'src/enums/car.enum';
 
 export const CarSchema = new Schema<ICar>({
   brand: {
@@ -30,6 +35,18 @@ export const CarSchema = new Schema<ICar>({
     enum: TRANSMISSION_TYPES,
     default: TRANSMISSION_TYPES.ALL,
     required: false,
+  },
+  fuel_type: {
+    type: String,
+    enum: FUEL_TYPE,
+    required: true,
+    default: FUEL_TYPE.OTHER,
+  },
+  type: {
+    type: String,
+    enum: VEHICLE_TYPE,
+    required: true,
+    default: VEHICLE_TYPE.OTHER,
   },
   seats: {
     type: Number,
