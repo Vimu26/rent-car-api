@@ -18,3 +18,24 @@ export enum TRANSMISSION_TYPES {
   MANUAL = 'MANUAL',
   CVT = 'CVT',
 }
+
+export enum FUEL_TYPE {
+  DIESEL = 'DIESEL',
+  PETROL = 'PETROL',
+  HYBRID = 'HYBRID',
+  ELECTRIC = 'ELECTRIC',
+  PLUGIN_HYBRID = 'PLUGIN HYBRID',
+  GASOLINE = 'GASOLINE',
+  OTHER = 'OTHER',
+}
+
+export enum VEHICLE_TYPE {
+  CAR = 'CAR',
+  SUV = 'SUV',
+  VAN = 'VAN',
+  CAB = 'CAB',
+  JEEP = 'JEEP',
+  LORRY = 'LORRY',
+  TRUCK = 'TRUCK',
+  OTHER = 'OTHER',
+}

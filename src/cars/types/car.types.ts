@@ -1,5 +1,10 @@
 import { Types } from 'mongoose';
-import { CAR_BRANDS, TRANSMISSION_TYPES } from 'src/enums/car.enum';
+import {
+  CAR_BRANDS,
+  FUEL_TYPE,
+  TRANSMISSION_TYPES,
+  VEHICLE_TYPE,
+} from 'src/enums/car.enum';
 
 export interface ICar {
   _id?: string | Types.ObjectId;
@@ -11,4 +16,6 @@ export interface ICar {
   transmission?: TRANSMISSION_TYPES;
   seats?: number;
   speed?: number;
+  fuel_type?: FUEL_TYPE;
+  type?: VEHICLE_TYPE;
 }

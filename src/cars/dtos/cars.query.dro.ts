@@ -1,6 +1,11 @@
 import { Type } from 'class-transformer';
 import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
-import { CAR_BRANDS, TRANSMISSION_TYPES } from 'src/enums/car.enum';
+import {
+  CAR_BRANDS,
+  FUEL_TYPE,
+  TRANSMISSION_TYPES,
+  VEHICLE_TYPE,
+} from 'src/enums/car.enum';
 
 export class CarsQueryDto {
   @IsString()
@@ -28,6 +33,14 @@ export class CarsQueryDto {
   @IsEnum(TRANSMISSION_TYPES)
   @IsOptional()
   transmission?: TRANSMISSION_TYPES;
+
+  @IsEnum(FUEL_TYPE)
+  @IsOptional()
+  fuel_type?: FUEL_TYPE;
+
+  @IsEnum(VEHICLE_TYPE)
+  @IsOptional()
+  type?: VEHICLE_TYPE;
 
   @IsNumber()
   @Type(() => Number)

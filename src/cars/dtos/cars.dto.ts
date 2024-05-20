@@ -1,5 +1,10 @@
 import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
-import { CAR_BRANDS, TRANSMISSION_TYPES } from 'src/enums/car.enum';
+import {
+  CAR_BRANDS,
+  FUEL_TYPE,
+  TRANSMISSION_TYPES,
+  VEHICLE_TYPE,
+} from 'src/enums/car.enum';
 
 export class CreateCarDto {
   @IsString()
@@ -31,4 +36,12 @@ export class CreateCarDto {
   @IsNumber()
   @IsOptional()
   speed?: number;
+
+  @IsEnum(FUEL_TYPE)
+  @IsOptional()
+  fuel_type?: FUEL_TYPE;
+
+  @IsEnum(VEHICLE_TYPE)
+  @IsOptional()
+  type?: VEHICLE_TYPE;
 }
