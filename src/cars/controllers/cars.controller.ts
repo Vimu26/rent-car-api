@@ -7,16 +7,19 @@ import {
   Body,
   Param,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CarsDatabaseService } from '../services/cars.database.service';
 import { ICar } from '../types/car.types';
 import { CreateCarDto } from '../dtos/cars.dto';
 import { CarsQueryDto } from '../dtos/cars.query.dro';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('cars')
 export class CarsController {
   constructor(private readonly carsService: CarsDatabaseService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getCars(@Query() queryParams: CarsQueryDto) {
     return await this.carsService.getCars(queryParams);
