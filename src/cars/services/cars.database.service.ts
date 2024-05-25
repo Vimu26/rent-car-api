@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { ICar } from '../types/car.types';
-import { CarsQueryDto } from '../dtos/cars.query.dro';
+import { CarsQueryDto, GetCarsByRatingDto } from '../dtos/cars.query.dro';
 
 @Injectable()
 export class CarsDatabaseService {
@@ -28,6 +28,35 @@ export class CarsDatabaseService {
     }
 
     return await this.carModel.find(filters).exec();
+  }
+
+  async getCarsByRating(queryParams: GetCarsByRatingDto) {
+    const limit = Number(queryParams.limit);
+    const cars = await this.carModel.aggregate([
+      {
+        $sort: {
+          rate: -1,
+          brand: 1,
+          car_name: 1,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          rate: 1,
+          car_name: 1,
+          price_per_day: 1,
+          brand: 1,
+        },
+      },
+      {
+        $skip: (queryParams.page - 1) * limit,
+      },
+      {
+        $limit: limit,
+      },
+    ]);
+    return cars;
   }
 
   async findById(id: string): Promise<ICar> {

@@ -12,7 +12,7 @@ import {
 import { CarsDatabaseService } from '../services/cars.database.service';
 import { ICar } from '../types/car.types';
 import { CreateCarDto } from '../dtos/cars.dto';
-import { CarsQueryDto } from '../dtos/cars.query.dro';
+import { CarsQueryDto, GetCarsByRatingDto } from '../dtos/cars.query.dro';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('cars')
@@ -28,6 +28,11 @@ export class CarsController {
   @Get(':id')
   async findById(@Param('id') id: string): Promise<ICar> {
     return await this.carsService.findById(id);
+  }
+
+  @Get('get/ratings')
+  async getCarsByRating(@Query() queryParams: GetCarsByRatingDto) {
+    return await this.carsService.getCarsByRating(queryParams);
   }
 
   @Post()
