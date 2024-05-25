@@ -1,5 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsOptional,
+  IsEnum,
+  IsInt,
+  Min,
+} from 'class-validator';
 import {
   CAR_BRANDS,
   FUEL_TYPE,
@@ -61,4 +68,18 @@ export class CarsQueryDto {
   @Type(() => Number)
   @IsOptional()
   maxSpeed?: number;
+}
+
+export class GetCarsByRatingDto {
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Type(() => Number)
+  page?: number = 1;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Type(() => Number)
+  limit?: number = 10;
 }
