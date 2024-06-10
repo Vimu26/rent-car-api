@@ -47,6 +47,8 @@ export class CarsDatabaseService {
           car_name: 1,
           price_per_day: 1,
           brand: 1,
+          transmission: 1,
+          speed: 1,
         },
       },
       {
