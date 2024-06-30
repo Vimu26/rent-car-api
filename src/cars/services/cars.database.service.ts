@@ -8,7 +8,8 @@ import { CarsQueryDto, GetCarsByRatingDto } from '../dtos/cars.query.dro';
 export class CarsDatabaseService {
   constructor(@InjectModel('Cars') private carModel: Model<ICar>) {}
 
-  async getCars(queryParams: CarsQueryDto): Promise<ICar[]> {
+  async getCars(queryParams: CarsQueryDto) {
+    const limit = Number(queryParams.limit);
     const filters: FilterQuery<ICar> = {};
 
     if (queryParams.brand) {
@@ -27,7 +28,38 @@ export class CarsDatabaseService {
       };
     }
 
-    return await this.carModel.find(filters).exec();
+    //use normal way to find with filters
+    // return await this.carModel.find(filters).exec();
+
+    return await this.carModel.aggregate([
+      {
+        $match: filters,
+      },
+      {
+        $sort: { brand: 1, car_name: 1 },
+      },
+      {
+        $project: {
+          _id: 1,
+          brand: 1,
+          car_name: 1,
+          price_per_day: 1,
+          rate: 1,
+          year: 1,
+          transmission: 1,
+          seats: 1,
+          speed: 1,
+          fuel_type: 1,
+          type: 1,
+        },
+      },
+      {
+        $skip: (queryParams.page - 1) * limit,
+      },
+      {
+        $limit: limit,
+      },
+    ]);
   }
 
   async getCarsByRating(queryParams: GetCarsByRatingDto) {
