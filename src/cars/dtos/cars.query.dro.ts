@@ -14,7 +14,21 @@ import {
   VEHICLE_TYPE,
 } from 'src/enums/car.enum';
 
-export class CarsQueryDto {
+export class GetCarsByRatingDto {
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Type(() => Number)
+  page?: number = 1;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Type(() => Number)
+  limit?: number = 10;
+}
+
+export class CarsQueryDto extends GetCarsByRatingDto {
   @IsString()
   @IsOptional()
   brand?: CAR_BRANDS;
@@ -68,18 +82,4 @@ export class CarsQueryDto {
   @Type(() => Number)
   @IsOptional()
   maxSpeed?: number;
-}
-
-export class GetCarsByRatingDto {
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  @Type(() => Number)
-  page?: number = 1;
-
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  @Type(() => Number)
-  limit?: number = 10;
 }
